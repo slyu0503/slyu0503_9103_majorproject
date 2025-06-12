@@ -32,10 +32,10 @@ These changes result in a more **expressive, interactive, and aesthetic-focused 
 
 ## Animation Driver: User Input
 
-This version uses **mouse input** to animate and transform the artwork. Key behaviors include:
+This version uses mouse input to animate and transform the artwork. Key behaviors include:
 - Clicking near particles (brush strokes) triggers a **cyber-style explosion** effect
 - Dragging the mouse leaves behind **layered glowing characters**, simulating a digital graffiti trail
-- No automatic motion or external timing — all changes are **directly user-controlled**
+- No automatic motion or external timing — all changes are **user-controlled**
 
 
 ## Technical Breakdown
@@ -49,14 +49,15 @@ This version uses **mouse input** to animate and transform the artwork. Key beha
 ## Inspiration
 
 This piece is visually inspired by:
-- **Cyberpunk digital art** (e.g., _Blade Runner_)
+- **Cyberpunk digital art**
+![Blade Runner 2049](assets/blade Runner 2049.png)
 - **Interactive graffiti art** and **digital calligraphy**
 - The idea of “disruption and restoration” in modern visual coding
 
 ## Repository Contents
 
 - `sketch.js`: Main p5.js animation code
-- `assets/dovefinal.png`: Base image for dove outline
+- `assets/dovefinal.png`: Image for dove
 - `README.md`: This file
 - `index.html`: HTML wrapper for browser launch
 
