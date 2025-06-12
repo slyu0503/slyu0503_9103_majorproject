@@ -1,4 +1,4 @@
-// Global variables
+
 let doveImg;
 let strokes = [];     // Array to store brush strokes
 let paintingLayer;    // Graphics layer for user painting
@@ -14,7 +14,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   pixelDensity(1);
 
-  setupPaintingLayer();
+  setupPaintingLayer()
   setupPeaceLayer();
   setupDoveImage();
 }
