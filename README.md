@@ -55,13 +55,6 @@ These changes result in a more **expressive, interactive, and aesthetic-focused 
 
 ![Graffiti art](assets/graffiti.jpg)
 
-## Repository Contents
-
-- `sketch.js`: Main p5.js animation code
-- `assets/dovefinal.png`: Image for dove
-- `README.md`: This file
-- `index.html`: HTML wrapper for browser launch
-
 ## Code Reference
 
 - [https://p5js.org/](https://p5js.org/)
