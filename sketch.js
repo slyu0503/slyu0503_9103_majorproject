@@ -1,5 +1,5 @@
 let doveImg;          // Our group chosen dove image.
-let strokes = [];     // We'll keep all the tiny brush strokes that make up our dove.
+let strokes = [];     // Keep all the tiny brush strokes that make up our dove.
 let paintingLayer;    // A drawing area where users can paint.
 let peaceLayer;       // Another drawing layer just for the "DREAM OF DOVE" text.
 let isPainting = false; // Helps us to know if mouse button is pressed down for painting.
