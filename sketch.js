@@ -6,7 +6,7 @@ let isPainting = false; // Track if the mouse is currently pressed for painting
 let bgColor = "grey"; // Background color
 
 function preload() {
-  doveImg = loadImage("dovefinal.png");
+  doveImg = loadImage("assets/dove.png");
 }
 
 function setup() {
