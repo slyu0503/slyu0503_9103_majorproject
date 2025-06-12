@@ -50,8 +50,11 @@ This version uses mouse input to animate and transform the artwork. Key behavior
 
 This piece is visually inspired by:
 - **Cyberpunk digital art**
+
 ![Blade Runner 2049](<assets/blade runner 2049.png>)
+
 - **Interactive graffiti art**
+
 ![Digital Graffiti](<assets/Digital Graffiti.png>)
 
 ## Repository Contents
