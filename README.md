@@ -49,13 +49,13 @@ This version uses mouse input to animate and transform the artwork. Key behavior
 ## Inspiration
 
 This piece is visually inspired by:
-- **Cyberpunk digital art**
+- **Cyberpunk art**
 
-![Blade Runner 2049](<assets/blade runner 2049.png>)
+![Blade Runner 2049 screenshot](<assets/blade runner.jpg>)
 
-- **Interactive graffiti art**
+- **Graffiti art**
 
-![Digital Graffiti](<assets/Digital Graffiti.png>)
+![Graffiti art](assets/graffiti.jpg)
 
 ## Repository Contents
 
