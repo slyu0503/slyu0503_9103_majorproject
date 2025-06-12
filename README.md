@@ -55,6 +55,12 @@ These changes result in a more **interactive, and aesthetic-focused experience**
 
 *The expressive nature of graffiti evokes a sense of meditation, where each stroke becomes part of a calming feeling. The user interact through free graffiti, the experience becomes playful, personal, and immersive，make user action into a meditative canvas.*
 
+- **Inspiration Animation**  
+  [http://xhslink.com/a/DHQSJR6V48Leb](http://xhslink.com/a/DHQSJR6V48Leb)
+
+  
+  *This animation was a reference that I found interesting and referenced while working on my creation, and was the first step in deciding how I would base my user interaction.*
+
 ## Tools & External Techniques  
 
 - **p5.js** – Creative the coding framework for interaction and animation
