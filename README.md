@@ -67,7 +67,7 @@ These changes result in a more **expressive, interactive, and aesthetic-focused 
 - [https://p5js.org/](https://p5js.org/)
 - Image: dove.png (group base)
 - Cyberpunk Neon Color Palette [https://www.color-hex.com/color-palette/61235](https://www.color-hex.com/color-palette/61235)
-- Inspiration animation [http://xhslink.com/a/s4sA7RMMBcBeb]（http://xhslink.com/a/s4sA7RMMBcBeb）
+- Inspiration animation [http://xhslink.com/a/DHQSJR6V48Leb](http://xhslink.com/a/DHQSJR6V48Leb)
 - Developed with VS Code
 
 > This submission is my own work and follows the academic integrity requirements of the University of Sydney.
