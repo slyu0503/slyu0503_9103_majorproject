@@ -6,12 +6,11 @@ let isPainting = false; // Helps us to know if mouse button is pressed down for 
 let bgColor = "grey"; // Sets the starting background color be grey.
 
 function preload() {
-  // Load the dove image. Make sure 'assets/dove.png' is in the right place
+  // Load the dove image. Make 'assets/dove.png' is in the right place
   doveImg = loadImage("assets/dove.png");
 }
 
 function setup() {
-  // This function runs once when the program starts.
   createCanvas(windowWidth, windowHeight); // We make our drawing area as big as users' browser window.
   pixelDensity(1); // WHich makes sure our pixels are drawn one-to-one, for the clear graphics.
 
@@ -74,7 +73,7 @@ function createBrushStrokesForLayer(layer, xOffset, yOffset) {
           x + xOffset + random(-2, 2),    // Position it, with a tiny wobble.
           y + yOffset + random(-2, 2),    // Same for the y position.
           color(r, g, b),                 // Use the original color of the pixel.
-          layer                           // Remember which layer this stroke belongs to.
+          layer                           // Remember layer this stroke belongs to.
         ));
       }
     }
@@ -82,7 +81,7 @@ function createBrushStrokesForLayer(layer, xOffset, yOffset) {
 }
 
 function draw() {
-  // This function runs over and over, drawing everything on the screen.
+
   background(bgColor);      // Fill the background with our chosen color.
   image(paintingLayer, 0, 0); // Show whatever user painted.
   image(peaceLayer, 0, 0);    // Show the text.
@@ -91,7 +90,7 @@ function draw() {
 }
 
 function updateAndDisplayStrokes() {
-  let t = millis() * 0.001; // Get the current time (in seconds).
+  let t = millis() * 0.001; // Get the current time.
   for (let stroke of strokes) { 
     stroke.update(t);  // Tell the stroke to update its position or color.
     stroke.display();  // Tell the stroke to draw itself.
@@ -142,7 +141,7 @@ function addPaintMark() {
 
     paintingLayer.push();                         // Save our current drawing settings.
     paintingLayer.translate(mouseX + offsetX, mouseY + offsetY); // Move to where we want to draw this mark.
-    paintingLayer.rotate(angle);                  // Spin it a bit.
+    paintingLayer.rotate(angle);                  // Spin it.
 
     paintingLayer.fill(paintColor);               // Set the color for the character.
     paintingLayer.textSize(size);                 // Set its size.
@@ -152,29 +151,28 @@ function addPaintMark() {
     let glowColor = color(red(paintColor), green(paintColor), blue(paintColor), 30); // A very transparent version of our color.
     paintingLayer.fill(glowColor);                // Set the glow color.
     paintingLayer.textSize(size * 1.5);           // Make the glow character bigger.
-    paintingLayer.text(char, 0, 0);               // Draw the glow!
+    paintingLayer.text(char, 0, 0);               // Draw the glow
 
     paintingLayer.pop();                          // Bring back our old drawing settings.
   }
 }
 
-// This is like a blueprint for each individual brush stroke that makes up the dove.
 class BrushStroke {
   constructor(x, y, col, layer) {
-    this.origin = createVector(x, y);      // This is where the stroke *wants* to be.
-    this.pos = createVector(x, y);         // This is where the stroke *currently* is.
+    this.origin = createVector(x, y);      // This is where the stroke want to be.
+    this.pos = createVector(x, y);         // This is where the stroke is.
     this.color = col;                      // Its current color.
     this.originalColor = col;              // The color it started with from the dove image.
     this.layer = layer;                    // Which of the 3 dove layers it belongs to.
     this.seed = random(1000);              // A random number, just in case we want to use it for wobbly effects.
     this.length = random(3, 10 + layer * 2); // How long the stroke is, depends on its layer.
     this.width = random(3, 8 + layer);     // How wide, also depends on its layer.
-    this.angle = random(PI);               // Starting angle (not used much right now).
+    this.angle = random(PI);               // Starting angle.
     this.alpha = random(150, 220);         // How transparent it is.
-    this.targetPos = createVector(x, y);   // The place it tries to return to (usually its origin).
+    this.targetPos = createVector(x, y);   // The place it tries to return to.
     this.recoverySpeed = random(0.02, 0.05); // How fast it snaps back into place.
-    this.isAffected = false;               // Is something messing with it? (Not really used yet).
-    this.isExploding = false;              // Is it in a "cyberpunk explosion" state?
+    this.isAffected = false;              
+    this.isExploding = false;              // Is it in a "cyberpunk explosion" state
     this.velocity = createVector(0, 0);    // How fast it's moving when exploding.
     this.cyberpunkColor = null;            // This will hold a random cyberpunk color if it's exploding.
   }
@@ -193,28 +191,24 @@ class BrushStroke {
   }
 
   update(time) {
-    // This runs for each stroke every time the `draw` loop happens.
-    // If you're pressing the mouse and this stroke isn't already flying away...
+  
     if (mouseIsPressed && !this.isExploding) {
-      // Let's see how close the mouse is to this stroke's original spot.
+      // How close the mouse is to this stroke's original spot.
       let mouseDist = dist(mouseX, mouseY, this.origin.x, this.origin.y);
-      // If it's super close (less than 25 pixels away)...
+  
       if (mouseDist < 25) {
-        this.isExploding = true; // BOOM! It's exploding!
-        this.cyberpunkColor = this.generateCyberpunkColor(); // Give it a shiny new color.
-        // This math makes it fly away from the mouse in a cool, swirly way.
+        this.isExploding = true; // It's exploding
+        this.cyberpunkColor = this.generateCyberpunkColor(); // Give it a new color.
         let toMouse = createVector(mouseX - this.origin.x, mouseY - this.origin.y);
         let tangent = createVector(-toMouse.y, toMouse.x).normalize();
         this.velocity = tangent.mult(random(3, 8)); // Give it a starting speed.
       }
     }
 
-    // If it *is* exploding...
     if (this.isExploding) {
       this.pos.add(this.velocity); // Move it based on its speed.
       this.velocity.mult(0.95);    // Slow it down a bit each time, like friction.
 
-      // If it's almost stopped moving...
       if (this.velocity.mag() < 0.1) {
         // Gently pull it back to its original spot. `lerp` is like smoothly easing it back.
         this.pos.lerp(this.targetPos, this.recoverySpeed);
@@ -232,17 +226,17 @@ class BrushStroke {
   }
 
   display() {
-    noStroke(); // We don't want outlines for these strokes.
+    noStroke();
     // If it's exploding, use its cyberpunk color; otherwise, make it white and a bit transparent.
     if (this.isExploding && this.cyberpunkColor) {
       fill(this.cyberpunkColor);
     } else {
       fill(255, 255, 255, this.alpha);
     }
-    push();                       // Save our drawing settings.
+    push();                      
     translate(this.pos.x, this.pos.y); // Move to where this stroke currently is.
-    ellipse(0, 0, this.length, this.width); // Draw it as a little oval.
-    pop();                        // Bring back our old drawing settings.
+    ellipse(0, 0, this.length, this.width);
+    pop();                        // Bring back the old drawing settings.
   }
 }
 
@@ -252,11 +246,11 @@ function keyPressed() {
     bgColor = "grey";    // Set the background back to grey.
   }
   if (key === 's' || key === 'S') {
-    saveCanvas('dream of dove_artwork', 'png'); // Save your masterpiece as a PNG image!
+    saveCanvas('dream of dove_artwork', 'png'); // Save your masterpiece as a PNG image
     return false; // This stops the browser from doing its own 'save' thing.
   }
   if (key === 'q' || key === 'Q') {
-    // Here are some cool dark colors for the background.
+    // Here are some dark colors for the background.
     const colors = [
       color(113,28,145),
       color(234,0,217),
