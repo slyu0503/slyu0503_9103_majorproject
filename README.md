@@ -10,12 +10,12 @@
 
 ## Project Overview
 
-This project is an individual extension of the group-coded dove dot-matrix. It transforms a static pixel image into an interactive drawing and visual experience. The work is inspired by cyberpunk aesthetics and designed to explore **user interaction as a primary driver of animation**.
+This project is an individual extension of the group-coded dove dot-matrix. It transforms a static pixel image into an interactive drawing and visual experience. The work is inspired by cyberpunk aesthetics and designed to explore user interaction as a primary driver of animation.
 
 ## How to Interact
 
-- **Click** near the dove to trigger an **explosive burst** of glowing particles
-- **Drag** the mouse to draw **cyberpunk-style glowing characters**
+- **Click** the dove dot matrix explosion
+- **Drag** the mouse to draw cyberpunk-style drawing
 - **Press `R`** to reset the page
 - **Press `S`** to save PNG image
 - **Press `Q`** to change background color
@@ -24,7 +24,7 @@ This project is an individual extension of the group-coded dove dot-matrix. It t
 
 While the original group code visualized a dove with elastic particle dots, my version expands it by:
 - **Adding stylized drawing interactions** using p5.js `createGraphics()`
-- **Replacing grayscale dot visuals** with vibrant **cyberpunk color palettes** and characters (`*, #, |, >, 0, 1`)
+- **Replacing grayscale dot visuals** with vibrant **cyberpunk color palettes** and characters such as `*, #, |, >, 0, 1`
 - **Eliminating auto-rotation and mouse-orbit logic** to focus on user-driven effects only
 - **Incorporating explosion physics** with damping and recovery for each particle
 
