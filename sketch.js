@@ -152,7 +152,7 @@ function addPaintMark() {
     let glowColor = color(red(paintColor), green(paintColor), blue(paintColor), 30); // A very transparent version of our color.
     paintingLayer.fill(glowColor);                // Set the glow color.
     paintingLayer.textSize(size * 1.5);           // Make the glow character bigger.
-    paintingLayer.text(char, 0, 0);               // Draw the glow
+    paintingLayer.text(char, 0, 0);               // Draw the glow!
 
     paintingLayer.pop();                          // Bring back our old drawing settings.
   }
@@ -258,11 +258,11 @@ function keyPressed() {
   if (key === 'q' || key === 'Q') {
     // Here are some cool dark colors for the background.
     const colors = [
-      color(20, 20, 40), // Dark blue/purple
-      color(40, 20, 40), // Dark purple
-      color(40, 20, 20), // Dark red
-      color(20, 40, 20), // Dark green
-      color(30, 30, 30)  // Dark grey
+      color(113,28,145),
+      color(234,0,217),
+      color(10,189,198),
+      color(19,62,124),
+      color(9,24,51)
     ];
     bgColor = random(colors); // Pick a random one for the background
   }

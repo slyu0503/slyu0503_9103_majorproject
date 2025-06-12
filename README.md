@@ -1,16 +1,23 @@
-# slyu0503_9103_majorproject
 # Dove in the Dream —— Meditation
 
-### User Input
 ### Group D
 
 | Name              | Unikey     |  
 |-------------------|------------|  
 | Su Lyu            | slyu0503   |
 
+### User Input
+
 ## Project Overview
 
 This project is an individual extension of the group-coded dove dot-matrix. It transforms a static pixel image into an interactive drawing and visual experience. The work is inspired by cyberpunk aesthetics and designed to explore user interaction as a primary driver of animation.
+
+## Animation Driver: User Input
+
+This version uses mouse input to animate and transform the artwork. Key behaviors include:
+- Clicking near particles (brush strokes) triggers a **cyber-style explosion** effect
+- Dragging the mouse leaves behind **layered glowing characters**, simulating a digital graffiti trail
+- No automatic motion or external timing — all changes are **user-controlled**
 
 ## How to Interact
 
@@ -25,30 +32,21 @@ This project is an individual extension of the group-coded dove dot-matrix. It t
 While the original group code visualized a dove with elastic particle dots, my version expands it by:
 - **Adding stylized drawing interactions** using p5.js `createGraphics()`
 - **Replacing grayscale dot visuals** with vibrant **cyberpunk color palettes** and characters such as `*, #, |, >, 0, 1`
-- **Eliminating auto-rotation and mouse-orbit logic** to focus on user-driven effects only
+- **Eliminating auto-rotation and mouse-orbit logic** to focus on user-driven effects
 - **Incorporating explosion physics** with damping and recovery for each particle
 
 These changes result in a more **expressive, interactive, and aesthetic-focused experience**, highlighting the visual pleasure of user disruption and creation.
-
-## Animation Driver: User Input
-
-This version uses mouse input to animate and transform the artwork. Key behaviors include:
-- Clicking near particles (brush strokes) triggers a **cyber-style explosion** effect
-- Dragging the mouse leaves behind **layered glowing characters**, simulating a digital graffiti trail
-- No automatic motion or external timing — all changes are **user-controlled**
-
 
 ## Technical Breakdown
 
 - `BrushStroke` class handles particle position, explosion velocity, and recovery logic
 - `addPaintMark()` uses `createGraphics()` to place glowing character layers on a transparent canvas
-- Color palettes use RGBA values for **neon effects**
-- `mousePressed` and `mouseDragged` are the only triggers — **no frame-based automation**
+- Color palettes use RGBA values for Cybeypunk effects
+- `mousePressed` and `mouseDragged` are the only triggers
 - `keyPressed` supports utility shortcuts (`R`, `S`, `Q`) for interactivity
 
 ## Inspiration
 
-This piece is visually inspired by:
 - **Cyberpunk art**
 
 ![Blade Runner 2049 screenshot](<assets/blade runner.jpg>)
@@ -64,11 +62,11 @@ This piece is visually inspired by:
 - `README.md`: This file
 - `index.html`: HTML wrapper for browser launch
 
-## Acknowledgments & Tools
+## Code Reference
 
 - Built using [p5.js](https://p5js.org/)
-- Image: Custom dove silhouette (group base)
-- Character & color inspiration from [cyberpunk color palette](https://lospec.com/palette-list/cyberpunk-neon)
+- Image: dove.png (group base)
 - Developed with VS Code
+- Cyberpunk Neon Color Palette[https://www.color-hex.com/color-palette/61235](https://www.color-hex.com/color-palette/61235)
 
 > This submission is my own work and follows the academic integrity requirements of the University of Sydney.
