@@ -1,82 +1,80 @@
-let doveImg;          // Dove image
-let strokes = [];     // Array to store individual brush strokes (particles) that form the dove
-let paintingLayer;    // p5.Graphics layer for user's interactive 'painting' marks
-let peaceLayer;       // p5.Graphics layer for the text
-let isPainting = false; // Track if the mouse is currently pressed for painting
-let bgColor = "grey"; // Background color
+let doveImg;          // Our group chosen dove image.
+let strokes = [];     // We'll keep all the tiny brush strokes that make up our dove.
+let paintingLayer;    // A drawing area where users can paint.
+let peaceLayer;       // Another drawing layer just for the "DREAM OF DOVE" text.
+let isPainting = false; // Helps us to know if mouse button is pressed down for painting.
+let bgColor = "grey"; // Sets the starting background color be grey.
 
 function preload() {
+  // Load the dove image. Make sure 'assets/dove.png' is in the right place
   doveImg = loadImage("assets/dove.png");
 }
 
 function setup() {
-  // from our group work inspration
-  createCanvas(windowWidth, windowHeight);
-  // Set pixel density to 1
-  pixelDensity(1);
+  // This function runs once when the program starts.
+  createCanvas(windowWidth, windowHeight); // We make our drawing area as big as users' browser window.
+  pixelDensity(1); // WHich makes sure our pixels are drawn one-to-one, for the clear graphics.
 
-  // Initialize and configure the painting layer where users draw
   setupPaintingLayer();
-  // Initialize and configure the text layer with "DOVE OF PEACE"
   setupPeaceLayer();
-  // Process the dove image and create the initial brush strokes
+  // Make the dove image into lots of little dots strokes.
   setupDoveImage();
 }
 
 function setupPaintingLayer() {
-  paintingLayer = createGraphics(width, height); // Create a new graphics buffer
-  paintingLayer.pixelDensity(1);                 // Set its pixel density
-  paintingLayer.background(0, 0, 0, 0);          // Set a transparent background
-  paintingLayer.noStroke();                      // Disable strokes for drawing on this layer
+  // Create that drawing area for user painting.
+  paintingLayer = createGraphics(width, height); // A transparent sheet of paper.
+  paintingLayer.pixelDensity(1);                 // Make all single pixels for clarity.
+  paintingLayer.background(0, 0, 0, 0);          // Completely transparent.
+  paintingLayer.noStroke();                      // No outlines for users' paint marks.
 }
 
 function setupPeaceLayer() {
-  peaceLayer = createGraphics(width, height); // Create a new graphics buffer for text
-  peaceLayer.push();                          // Isolate styling changes to this layer
-  peaceLayer.textFont("Courier New");         // Set the font for the text
-  peaceLayer.textSize(200);                   // Set the text size
-  peaceLayer.textAlign(CENTER, CENTER);       // Align text to the center
-  peaceLayer.fill(20, 20, 20, 80);            // Set a dark, semi-transparent fill color for the text
-  // Draw the text "DOVE OF PEACE" in the center of the layer
+  // Set up the texts
+  peaceLayer = createGraphics(width, height); // The transparent sheet.
+  peaceLayer.push();                          // We're about to change some drawing styles, so we save the old ones.
+  peaceLayer.textFont("Courier New");      
+  peaceLayer.textSize(200);                
+  peaceLayer.textAlign(CENTER, CENTER);       // Center the text.
+  peaceLayer.fill(20, 20, 20, 80);            // Dark, slightly see-through color.
   peaceLayer.text("DREAM OF DOVE", width / 2, height / 2);
-  peaceLayer.pop();                           // Restore previous styling settings
+  peaceLayer.pop();                           // Bring back any old drawing styles we saved.
 }
 
 function setupDoveImage() {
-  doveImg.resize(1000, 0); // Resize the dove image to a width of 1000px, maintaining aspect ratio
-  doveImg.loadPixels();    // Load pixel data for direct access (required for pixel manipulation)
+  // This function takes our dove image and prepares it.
+  doveImg.resize(1000, 0); // The dove image 1000 pixels wide, and p5.js figures out the height.
+  doveImg.loadPixels();    // This lets us look at each tiny pixel of the dove image.
 
-  // Calculate offsets to center the dove image on the canvas
+  // Center image
   let xOffset = (width - doveImg.width) / 2;
   let yOffset = (height - doveImg.height) / 2;
 
-  // Create brush strokes in 3 distinct layers to give a sense of depth or complexity
+  // Create brush strokes in 3 layers
   for (let layer = 0; layer < 3; layer++) {
     createBrushStrokesForLayer(layer, xOffset, yOffset);
   }
 }
 
-
 function createBrushStrokesForLayer(layer, xOffset, yOffset) {
-  // Iterate through image pixels, skipping some to create a sparse effect
+  // This function goes through the dove image and turns parts of it into brush strokes.
+  // We're skipping some pixels (y+=4, x+=4) so it looks a bit scattered, not solid.
   for (let y = 0; y < doveImg.height; y += 4) {
     for (let x = 0; x < doveImg.width; x += 4) {
-      // Calculate the index for RGBA pixel data
+      // This is a bit technical, but it helps us find the color of each pixel.
       let index = (x + y * doveImg.width) * 4;
-      // Get RGB color components
-      let r = doveImg.pixels[index];
-      let g = doveImg.pixels[index + 1];
-      let b = doveImg.pixels[index + 2];
-      // Calculate brightness (average of RGB)
-      let brightness = (r + g + b) / 3;
+      let r = doveImg.pixels[index];     // Red color
+      let g = doveImg.pixels[index + 1]; // Green color
+      let b = doveImg.pixels[index + 2]; // Blue color
+      let brightness = (r + g + b) / 3;  // How bright is this pixel
 
-      // Only create a stroke if the pixel is bright enough and a random chance is met
+     // Create brush stroke for bright pixels with 70% probability
       if (brightness > 50 && random() > 0.7) {
         strokes.push(new BrushStroke(
-          x + xOffset + random(-2, 2),    // X position with slight random offset
-          y + yOffset + random(-2, 2),    // Y position with slight random offset
-          color(r, g, b),                 // Original color of the pixel
-          layer                           // The layer this stroke belongs to
+          x + xOffset + random(-2, 2),    // Position it, with a tiny wobble.
+          y + yOffset + random(-2, 2),    // Same for the y position.
+          color(r, g, b),                 // Use the original color of the pixel.
+          layer                           // Remember which layer this stroke belongs to.
         ));
       }
     }
@@ -84,43 +82,43 @@ function createBrushStrokesForLayer(layer, xOffset, yOffset) {
 }
 
 function draw() {
-  background(bgColor);      // Set the background color
-  image(paintingLayer, 0, 0); // Display the user's painting layer
-  image(peaceLayer, 0, 0);    // Display the text
-  updateAndDisplayStrokes(); // Update and draw all individual brush strokes
-  displayInfoText();        // Display instructional text at the bottom
+  // This function runs over and over, drawing everything on the screen.
+  background(bgColor);      // Fill the background with our chosen color.
+  image(paintingLayer, 0, 0); // Show whatever user painted.
+  image(peaceLayer, 0, 0);    // Show the text.
+  updateAndDisplayStrokes(); // Make our dove strokes move and then draw them.
+  displayInfoText();        // Show instructions at the bottom for user.
 }
 
 function updateAndDisplayStrokes() {
-  let t = millis() * 0.001; // Get current time in seconds for potential animation use
-  for (let stroke of strokes) {
-    stroke.update(t);  // Call the update method for each stroke
-    stroke.display();  // Call the display method for each stroke
+  let t = millis() * 0.001; // Get the current time (in seconds).
+  for (let stroke of strokes) { 
+    stroke.update(t);  // Tell the stroke to update its position or color.
+    stroke.display();  // Tell the stroke to draw itself.
   }
 }
 
 function displayInfoText() {
-  fill("white");     // Set text color to white
-  textSize(14);      // Set text size
-  // Display the instruction string
+  fill("white");   
+  textSize(14);      // Set the text size.
   text("R - retry; S - save; Q - change background", 20, height - 20);
 }
 
 function mousePressed() {
-  isPainting = true; // Set flag to true as painting has started
-  addPaintMark();    // Add a paint mark at the current mouse position
+  isPainting = true;
+  addPaintMark();    // Add a little splash of paint right away.
 }
 
 function mouseDragged() {
-  addPaintMark(); // Add paint marks continuously while dragging
+  addPaintMark(); // Keep adding paint as drag mouse around.
 }
 
 function mouseReleased() {
-  isPainting = false; // Set flag to false as painting has stopped
+  isPainting = false; // Mouse is up, so no more painting for now.
 }
 
 function addPaintMark() {
-  // Array of predefined cyberpunk-themed colors
+  // Because of the inspration by cyberpunk, "cyberpunk" colors we can use for painting.
   const cyberpunkColors = [
     color(255, 0, 128, 150), // Pink
     color(0, 255, 255, 150), // Cyan
@@ -130,58 +128,59 @@ function addPaintMark() {
     color(128, 0, 255, 150)  // Purple
   ];
 
-  // Array of characters to be used for the paint marks
+  // Use interesting characters to make our paint marks look cool and neo.
   const chars = ['0', '1', '*', '#', '@', '&', '>', '<', '|', '/'];
-  let paintColor = random(cyberpunkColors); // Pick a random cyberpunk color for this set of marks
+  let paintColor = random(cyberpunkColors); // Pick a random cyberpunk color for this set of marks.
 
-  // Create multiple small marks for each mouse event
+  // For each mouse event, we'll draw several small marks.
   for (let i = 0; i < 8; i++) {
-    let offsetX = random(-15, 15);  // Random horizontal offset
-    let offsetY = random(-15, 15);  // Random vertical offset
-    let size = random(8, 12);       // Random text size
-    let angle = random(-PI / 4, PI / 4); // Random rotation angle
-    let char = random(chars);       // Random character from the array
+    let offsetX = random(-15, 15);  // Give it a small random wiggle horizontally.
+    let offsetY = random(-15, 15);  // And vertically.
+    let size = random(8, 12);       // Random size for the character.
+    let angle = random(-PI / 4, PI / 4); // Random rotation, just a little bit.
+    let char = random(chars);       // Pick a random character.
 
-    paintingLayer.push();                         // Isolate transformations for each mark
-    paintingLayer.translate(mouseX + offsetX, mouseY + offsetY); // Move to the mark's position
-    paintingLayer.rotate(angle);                  // Apply rotation
+    paintingLayer.push();                         // Save our current drawing settings.
+    paintingLayer.translate(mouseX + offsetX, mouseY + offsetY); // Move to where we want to draw this mark.
+    paintingLayer.rotate(angle);                  // Spin it a bit.
 
-    paintingLayer.fill(paintColor);               // Set the main color for the character
-    paintingLayer.textSize(size);                 // Set the text size
-    paintingLayer.textAlign(CENTER, CENTER);      // Align text for rotation
-    paintingLayer.text(char, 0, 0);               // Draw the character
+    paintingLayer.fill(paintColor);               // Set the color for the character.
+    paintingLayer.textSize(size);                 // Set its size.
+    paintingLayer.textAlign(CENTER, CENTER);      // Make sure it rotates nicely around its center.
+    paintingLayer.text(char, 0, 0);               // Draw the character!
 
-    // Create a glow effect by drawing a larger, more transparent version of the same character
-    let glowColor = color(red(paintColor), green(paintColor), blue(paintColor), 30);
-    paintingLayer.fill(glowColor);                // Set the glow color (more transparent)
-    paintingLayer.textSize(size * 1.5);           // Make the glow character larger
-    paintingLayer.text(char, 0, 0);               // Draw the glow character
+    let glowColor = color(red(paintColor), green(paintColor), blue(paintColor), 30); // A very transparent version of our color.
+    paintingLayer.fill(glowColor);                // Set the glow color.
+    paintingLayer.textSize(size * 1.5);           // Make the glow character bigger.
+    paintingLayer.text(char, 0, 0);               // Draw the glow
 
-    paintingLayer.pop();                          // Restore previous transformation settings
+    paintingLayer.pop();                          // Bring back our old drawing settings.
   }
 }
 
+// This is like a blueprint for each individual brush stroke that makes up the dove.
 class BrushStroke {
   constructor(x, y, col, layer) {
-    this.origin = createVector(x, y);      // The fixed original position (where it wants to return)
-    this.pos = createVector(x, y);         // Current position of the stroke
-    this.color = col;                      // Current color (can change during explosion)
-    this.originalColor = col;              // The color from the original image
-    this.layer = layer;                    // Layer property (0, 1, or 2)
-    this.seed = random(1000);              // Random seed for potential Perlin noise or other effects
-    this.length = random(3, 10 + layer * 2); // Length of the ellipse, influenced by layer
-    this.width = random(3, 8 + layer);     // Width of the ellipse, influenced by layer
-    this.angle = random(PI);               // Initial rotation angle (not used in current display but can be)
-    this.alpha = random(150, 220);         // Transparency of the stroke
-    this.targetPos = createVector(x, y);   // The position the stroke tries to return to
-    this.recoverySpeed = random(0.02, 0.05); // Speed at which it returns to `targetPos`
-    this.isAffected = false;               // Flag to check if it's currently affected (not actively used but good for state)
-    this.isExploding = false;              // Flag to track if the stroke is in an 'exploding' state
-    this.velocity = createVector(0, 0);    // Current velocity when exploding
-    this.cyberpunkColor = null;            // Stores a random cyberpunk color when exploding
+    this.origin = createVector(x, y);      // This is where the stroke *wants* to be.
+    this.pos = createVector(x, y);         // This is where the stroke *currently* is.
+    this.color = col;                      // Its current color.
+    this.originalColor = col;              // The color it started with from the dove image.
+    this.layer = layer;                    // Which of the 3 dove layers it belongs to.
+    this.seed = random(1000);              // A random number, just in case we want to use it for wobbly effects.
+    this.length = random(3, 10 + layer * 2); // How long the stroke is, depends on its layer.
+    this.width = random(3, 8 + layer);     // How wide, also depends on its layer.
+    this.angle = random(PI);               // Starting angle (not used much right now).
+    this.alpha = random(150, 220);         // How transparent it is.
+    this.targetPos = createVector(x, y);   // The place it tries to return to (usually its origin).
+    this.recoverySpeed = random(0.02, 0.05); // How fast it snaps back into place.
+    this.isAffected = false;               // Is something messing with it? (Not really used yet).
+    this.isExploding = false;              // Is it in a "cyberpunk explosion" state?
+    this.velocity = createVector(0, 0);    // How fast it's moving when exploding.
+    this.cyberpunkColor = null;            // This will hold a random cyberpunk color if it's exploding.
   }
 
   generateCyberpunkColor() {
+    // Just a quick way to get one of those cool cyberpunk colors.
     const colors = [
       color(255, 0, 128),
       color(0, 255, 255),
@@ -194,87 +193,82 @@ class BrushStroke {
   }
 
   update(time) {
-    // Check if mouse is pressed and the stroke is not already exploding
+    // This runs for each stroke every time the `draw` loop happens.
+    // If you're pressing the mouse and this stroke isn't already flying away...
     if (mouseIsPressed && !this.isExploding) {
-      // Calculate distance from the mouse to the stroke's original position
+      // Let's see how close the mouse is to this stroke's original spot.
       let mouseDist = dist(mouseX, mouseY, this.origin.x, this.origin.y);
-      // If close enough to the mouse, trigger an explosion
+      // If it's super close (less than 25 pixels away)...
       if (mouseDist < 25) {
-        this.isExploding = true;
-        this.cyberpunkColor = this.generateCyberpunkColor(); // Assign a cyberpunk color
-        // Calculate a vector from the stroke's origin to the mouse
+        this.isExploding = true; // BOOM! It's exploding!
+        this.cyberpunkColor = this.generateCyberpunkColor(); // Give it a shiny new color.
+        // This math makes it fly away from the mouse in a cool, swirly way.
         let toMouse = createVector(mouseX - this.origin.x, mouseY - this.origin.y);
-        // Calculate a tangent vector perpendicular to `toMouse`
         let tangent = createVector(-toMouse.y, toMouse.x).normalize();
-        // Set an initial velocity for the explosion, tangential to the mouse direction
-        this.velocity = tangent.mult(random(3, 8));
+        this.velocity = tangent.mult(random(3, 8)); // Give it a starting speed.
       }
     }
 
-    // If the stroke is currently exploding
+    // If it *is* exploding...
     if (this.isExploding) {
-      this.pos.add(this.velocity); // Move the stroke by its velocity
-      this.velocity.mult(0.95);    // Gradually reduce the velocity (slow it down)
+      this.pos.add(this.velocity); // Move it based on its speed.
+      this.velocity.mult(0.95);    // Slow it down a bit each time, like friction.
 
-      // If velocity becomes very small, start recovery
+      // If it's almost stopped moving...
       if (this.velocity.mag() < 0.1) {
-        // Linearly interpolate the position back towards the target (origin)
+        // Gently pull it back to its original spot. `lerp` is like smoothly easing it back.
         this.pos.lerp(this.targetPos, this.recoverySpeed);
-        // If very close to the target, reset explosion state
+        // If it's super close to its home spot, stop exploding.
         if (p5.Vector.dist(this.pos, this.targetPos) < 1) {
-          this.isExploding = false;     // Explosion finished
-          this.isAffected = false;      // Not affected anymore
-          this.cyberpunkColor = null;   // Clear cyberpunk color
+          this.isExploding = false;     // All calm now.
+          this.isAffected = false;      // No longer being messed with.
+          this.cyberpunkColor = null;   // No more special color.
         }
       }
     } else {
-      // If not exploding, continuously lerp back to the target position
+      // If it's not exploding, just gently pull it back to where it belongs.
       this.pos.lerp(this.targetPos, this.recoverySpeed);
     }
   }
 
   display() {
-    noStroke(); // Ensure no outline for the ellipse
-    // Set fill color: cyberpunk if exploding, otherwise white with alpha
+    noStroke(); // We don't want outlines for these strokes.
+    // If it's exploding, use its cyberpunk color; otherwise, make it white and a bit transparent.
     if (this.isExploding && this.cyberpunkColor) {
       fill(this.cyberpunkColor);
     } else {
       fill(255, 255, 255, this.alpha);
     }
-    push();                       // Isolate transformations for this stroke
-    translate(this.pos.x, this.pos.y); // Move to the stroke's current position
-    ellipse(0, 0, this.length, this.width); // Draw the stroke as an ellipse
-    pop();                        // Restore previous transformation settings
+    push();                       // Save our drawing settings.
+    translate(this.pos.x, this.pos.y); // Move to where this stroke currently is.
+    ellipse(0, 0, this.length, this.width); // Draw it as a little oval.
+    pop();                        // Bring back our old drawing settings.
   }
 }
 
 function keyPressed() {
-  // If 'R' key is pressed
   if (key === 'r' || key === 'R') {
-    clearPaintingLayer(); // Clear the user's painting
-    bgColor = "grey";    // Reset background
+    clearPaintingLayer(); // Clear all your paint marks.
+    bgColor = "grey";    // Set the background back to grey.
   }
-  // If 'S' key is pressed
   if (key === 's' || key === 'S') {
-    saveCanvas('dream of dove_artwork', 'png'); // Save the current canvas as a PNG image
-    return false; // Prevent default browser action (e.g., saving page source)
+    saveCanvas('dream of dove_artwork', 'png'); // Save your masterpiece as a PNG image!
+    return false; // This stops the browser from doing its own 'save' thing.
   }
-  // If 'Q' key is pressed (case-insensitive)
   if (key === 'q' || key === 'Q') {
-    // Array of predefined dark background colors
+    // Here are some cool dark colors for the background.
     const colors = [
       color(20, 20, 40), // Dark blue/purple
       color(40, 20, 40), // Dark purple
-      color(20, 40, 40), // Dark teal
       color(40, 20, 20), // Dark red
       color(20, 40, 20), // Dark green
       color(30, 30, 30)  // Dark grey
     ];
-    bgColor = random(colors); // Random background color from the list
+    bgColor = random(colors); // Pick a random one for the background
   }
 }
 
 function clearPaintingLayer() {
-  paintingLayer.clear();                // Clear all pixels on the graphics
-  paintingLayer.background(0, 0, 0, 0); // Ensure it's fully transparent
+  paintingLayer.clear();                // Erase everything on the painting layer.
+  paintingLayer.background(0, 0, 0, 0);
 }
