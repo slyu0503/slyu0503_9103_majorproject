@@ -6,7 +6,7 @@ let isPainting = false; // Track if the mouse is currently pressed for painting
 let bgColor = "grey"; // Background color
 
 function preload() {
-  doveImg = loadImage("assets/dovefinal.png");
+  doveImg = loadImage("dovefinal.png");
 }
 
 function setup() {
@@ -249,12 +249,12 @@ class BrushStroke {
 }
 
 function keyPressed() {
-  // If 'R' key is pressed (case-insensitive)
+  // If 'R' key is pressed
   if (key === 'r' || key === 'R') {
     clearPaintingLayer(); // Clear the user's painting
     bgColor = "grey";    // Reset background
   }
-  // If 'S' key is pressed (case-insensitive)
+  // If 'S' key is pressed
   if (key === 's' || key === 'S') {
     saveCanvas('dream of dove_artwork', 'png'); // Save the current canvas as a PNG image
     return false; // Prevent default browser action (e.g., saving page source)
